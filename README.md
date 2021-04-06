@@ -41,6 +41,7 @@ that will probably be useful.
 * [iperf3](https://iperf.fr)
 * [iwlist](https://www.systutorials.com/docs/linux/man/8-iwlist/)
 * [matplotlib](https://matplotlib.org/)
+* [RaspberryPi](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/)
 
 #### Objective
 Heatmapping bitrate will be the primary goal, and then possibly graphing other data.
