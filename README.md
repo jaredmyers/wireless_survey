@@ -1,15 +1,15 @@
 ## Updates
 
+#### 04/06/21
+Created a floorplan png overlay file for matplotlib. This is a scaled mockup of an apartment
+with wifi location and plot points on the map for measurement.
+
 #### 04/05/21
 Created skeleton code labeled the following:
 
 * networkscan.py - Generating network data into a JSON file then parsing/outputing 
 * graph.py - invoking a very basic instance of a heatmap with matplotlib for starters
 * wifisurveyproject.py - currently the main
-
-#### 04/06/21
-Created an architecture floorplan png overlay file. This is a to-scale mockup of an apartment
-with wifi location and plot points on the map for measurment. 
 
 ### Whats next
 Now that the apartment overlay is created, this allows for the testing/mapping of matplotlib. 
