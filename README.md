@@ -38,11 +38,11 @@ that will probably be useful.
 
 #### Important tools currently being used
 
-* [iperf3](https://iperf.fr)
-* [iwlist](https://www.systutorials.com/docs/linux/man/8-iwlist/)
-* [matplotlib](https://matplotlib.org/)
+* [iperf3](https://iperf.fr) - used for network measurements 
+* [iwlist](https://www.systutorials.com/docs/linux/man/8-iwlist/) - for interacting with wireless network interface
+* [matplotlib](https://matplotlib.org/) - for graphing/visualization
 * [RaspberryPi](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/)
-* [smartdraw](https://www.smartdraw.com/)
+* [smartdraw](https://www.smartdraw.com/) - used for drawing floorplans
 
 #### Objective
 Heatmapping bitrate will be the primary goal, and then possibly graphing other data.
