@@ -18,9 +18,10 @@ class Graph:
         '''generates heat map from x, y'''
         
         #Create heatmap
+        img = plt.imread('apt.png')
         heatmap, xedges, yedges = np.histogram2d(self.x, self.y, bins=(128,128))
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-
+        
         #Plot heatmap
         plt.clf()
         plt.title('Crappy Heatmap Example')
@@ -28,6 +29,8 @@ class Graph:
         plt.xlabel('x')
         plt.imshow(heatmap, extent=extent)
         plt.show()
+        
+    #def test_bg(self):
         
         
     
