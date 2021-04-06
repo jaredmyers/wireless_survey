@@ -33,12 +33,3 @@ class NetworkScan:
         print(' ')
         print(data['end']['sum_received']['bits_per_second'])
         
-        
-    def knows(self, trick):
-        '''takes string trick, returns bool if trick in list tricks'''
-        if trick in self.tricks:
-            print(f"Yes, {self.name} knows {trick}")
-            return True
-        else:
-            print(f"No, {self.name} does not know {trick}")
-            return False
