@@ -5,6 +5,7 @@
 import numpy as np
 import numpy.random
 import matplotlib.pyplot as plt
+import matplotlib.cbook as cbook
 from scipy.ndimage.filters import gaussian_filter
 
 import pandas as pd
@@ -23,11 +24,17 @@ class Graph:
         
     def generate_heatmap(self):
         '''generates heat map from x, y'''
+        
+        img = plt.imread("apt.png")
+        #fig, ax = plt.subplots()
+        image = plt.imshow(img, extent=[0,400,0,800])
+        #ax.imshow(img, extent=[0, 400, 0, 800])
+        #plt.show()
        
         # regular matplotlib attempt
         flight_data = pd.read_csv('flights.csv')
         flight_data = flight_data.pivot('month', 'year', 'passengers')
-        plt.imshow(flight_data, cmap='jet', interpolation='mitchell')
+        heatmap = plt.imshow(flight_data, cmap='jet',alpha=.5, interpolation='mitchell', extent=[0,400,0,800])
         plt.show()
         
               
