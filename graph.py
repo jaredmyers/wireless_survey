@@ -23,34 +23,37 @@ class Graph:
         
     def generate_heatmap(self):
         '''generates heat map from x, y'''
+       
+        # regular matplotlib attempt
+        flight_data = pd.read_csv('flights.csv')
+        flight_data = flight_data.pivot('month', 'year', 'passengers')
+        plt.imshow(flight_data, cmap='jet', interpolation='bilinear')
+        plt.show()
         
-       # df = pd.read_csv('test_csv.csv')
+              
+        '''
+        
+        # df = pd.read_csv('test_csv.csv')
        # print(df.head(10))
        # symbol = ((np.asarray(df['Symbol'])).reshape(5,5))
        # percentage = ((np.asarray(df['Change'])).reshape(5,5))
         
        # result = df.pivot(index='Yrows',columns='Xcols',values='Change')
        # print(result)
-       
-        #do this
-        flight_data = pd.read_csv('flights.csv')
+        
+        
+        
+        
+        flight_data_smooth = gaussian_filter(flight_data, sigma=1)
+        
+        # from seaborn attempt
         #flight_data = sns.load_dataset('flights')
-        flight_data = flight_data.pivot('month', 'year', 'passengers')
         
-        plt.imshow(flight_data, cmap='jet', interpolation='bilinear')
-        
-        
-        #flight_data_smooth = gaussian_filter(flight_data, sigma=1)
-        #display_flight = sns.heatmap(flight_data, cmap='coolwarm', cbar=False)
-        plt.show()
-        
-       
-       
-       
-       
-       
-        '''
-       # This example runs
+        display_flight = sns.heatmap(flight_data, cmap='coolwarm', cbar=False)
+
+
+
+       # This example runs with pcolormesh
         x = [1, 2, 3, 4, 5]
         y = [0.1, 0.2, 0.3, 0.4, 0.5]
        
@@ -68,10 +71,8 @@ class Graph:
         plt.pcolormesh(x,y,intensity)
         plt.colorbar()
         plt.show()
-        '''
+        #------------------------------------
        
-        
-        
         #Create heatmap
         #img = plt.imread('apt.png')
         #heatmap, xedges, yedges = np.histogram2d(self.x, self.y, bins=(128,128))
@@ -89,6 +90,6 @@ class Graph:
         
     #def test_bg(self):
         
-        
+        '''
     
     
