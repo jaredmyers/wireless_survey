@@ -1,6 +1,10 @@
 ## Updates
 
 #### 04/08/21
+Heatmap + floorplan test overlay functional. Next is gather real data for the space and see
+how it looks. 
+
+#### 04/08/21
 Current heatmapping from a local CSV appears functional. Now on to figuring out 
 the image overlay situation and how to accurately associate the two. 
 
