@@ -27,7 +27,7 @@ class Graph:
         # regular matplotlib attempt
         flight_data = pd.read_csv('flights.csv')
         flight_data = flight_data.pivot('month', 'year', 'passengers')
-        plt.imshow(flight_data, cmap='jet', interpolation='bilinear')
+        plt.imshow(flight_data, cmap='jet', interpolation='mitchell')
         plt.show()
         
               

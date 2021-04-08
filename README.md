@@ -1,5 +1,9 @@
 ## Updates
 
+#### 04/08/21
+Current heatmapping from a local CSV appears functional. Now on to figuring out 
+the image overlay situation and how to accurately associate the two. 
+
 #### 04/06/21
 Created a floorplan png overlay file for matplotlib. This is a scaled mockup of an apartment
 with wifi location and plot points on the map for measurement.
