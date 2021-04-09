@@ -25,20 +25,24 @@ class Graph:
     def generate_heatmap(self):
         '''generates heat map from x, y'''
         
-        img = plt.imread("apt.png")
-        #fig, ax = plt.subplots()
-        image = plt.imshow(img, extent=[0,400,0,800])
-        #ax.imshow(img, extent=[0, 400, 0, 800])
-        #plt.show()
-       
+        # take in floorplan image, set extents, etc
+        img = plt.imread("house.png")
+        image = plt.imshow(img, extent=[0, 2500, 0, 1500])
+        
         # regular matplotlib attempt
         flight_data = pd.read_csv('flights.csv')
         flight_data = flight_data.pivot('month', 'year', 'passengers')
-        heatmap = plt.imshow(flight_data, cmap='jet',alpha=.5, interpolation='mitchell', extent=[0,400,0,800])
+        heatmap = plt.imshow(flight_data, cmap='jet',alpha=.5, interpolation='mitchell',
+                             extent=[0, 2500,0, 1500])
         plt.show()
         
               
         '''
+        #fig, ax = plt.subplots()
+        #ax.imshow(img, extent=[0, 400, 0, 800])
+
+
+
         
         # df = pd.read_csv('test_csv.csv')
        # print(df.head(10))
