@@ -13,7 +13,14 @@
 * create a gui wrapper that allows user to click/touch on a map point and gather bitrate data
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
 
-#### 04/09/21
+#### 04/09/21 #2
+Currently setting up graphical interface for the thing.[It's currently looking like this.][1] 
+Not sure yet how it will turn out. Idealy the user would be able touch a point on the map to scan,
+but that might be too much for PyQt5 (or too much for me lol). 
+
+[1]: <test_gui.png>
+
+#### 04/09/21 #1
 Real site data measured, graph/overlay working. Heatmap tweaks successful.
 See [current output here](house_output.png) The gridded area is roughly 1700 sq.ft
 which will probably be indicated in the output. Working on that now.

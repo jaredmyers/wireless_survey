@@ -11,12 +11,13 @@ import subprocess
 from networkscan import NetworkScan
 from graph import Graph
 
-graph = Graph(70000,70000)
-
-graph.generate_heatmap()
+#iperf_server_ip = '10.0.0.74'
 
 
-#netscan = NetworkScan('192.168.1.5')
+#netscan = NetworkScan(iperf_server_ip)
 
 #netscan.iperf_scan()
-#netscan.iperf_print()
+#netscan.iperf_print(1)
+
+graph = Graph()
+graph.generate_heatmap()

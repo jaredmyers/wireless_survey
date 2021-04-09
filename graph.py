@@ -16,10 +16,10 @@ import plotly.express as px
 class Graph:
     '''Graph Class for heatmap + anything else'''
     
-    def __init__(self, x, y):
+    def __init__(self):
         '''constructor for graph class'''
-        self.x = np.random.randn(x)
-        self.y = np.random.randn(y)
+        #self.x = np.random.randn(x)
+        #self.y = np.random.randn(y)
        # self.uniform_data = np.random.rand(20,20)
         
     def generate_heatmap(self):
@@ -32,13 +32,18 @@ class Graph:
         image = plt.imshow(img, extent=extents)
         
         # regular matplotlib attempt
-        flight_data = pd.read_csv('house.csv')
-        flight_data = flight_data.pivot('col', 'row', 'intensity')
-        heatmap = plt.imshow(flight_data, cmap='jet',alpha=.4, interpolation='mitchell',
+        floorplan_data = pd.read_csv('house.csv')
+        floorplan_data = floorplan_data.pivot('col', 'row', 'intensity')
+        heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell',
                              extent=[0,2500,0,1500], origin="lower")
+        
+        #textcolors = ["k","w"]
+        #threshold = 55
+        #print(floorplan_data)
+        
+        
         plt.show()
         #fig.savefig('house_output.png', dpi=150)
-        
         
         
         
