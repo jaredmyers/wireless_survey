@@ -37,7 +37,7 @@ class Graph:
         heatmap = plt.imshow(flight_data, cmap='jet',alpha=.4, interpolation='mitchell',
                              extent=[0,2500,0,1500], origin="lower")
         plt.show()
-        fig.savefig('house_output.png', dpi=150)
+        #fig.savefig('house_output.png', dpi=150)
         
         
         

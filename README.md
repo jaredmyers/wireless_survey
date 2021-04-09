@@ -15,7 +15,8 @@
 
 #### 04/09/21
 Real site data measured, graph/overlay working. Heatmap tweaks successful.
-See [current output here](house_output.png)
+See [current output here](house_output.png) The gridded area is roughly 1700 sq.ft
+which will probably be indicated in the output. Working on that now.
 
 #### 04/08/21 #3
 New site map created for current location. Overlays working. Next: will collect site data
