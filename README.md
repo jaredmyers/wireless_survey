@@ -7,11 +7,15 @@
 * testing matplotlib and graphing capabilities ***complete***
 * getting a test heatmap up and running ***complete***
 * understanding how to get an overlay image and heatmap to play nicely together ***complete***
-* obtain real site data for a proper graph 
-* tweak heatmap and overlay to ensure spacial accuracy 
+* obtain real site data for a proper graph ***complete***
+* tweak heatmap and overlay to ensure spacial accuracy ***complete***
 * write function to automate the parsing of data directly from networking tools
 * create a gui wrapper that allows user to click/touch on a map point and gather bitrate data
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
+
+#### 04/09/21
+Real site data measured, graph/overlay working. Heatmap tweaks successful.
+See [current output here](house_output.png)
 
 #### 04/08/21 #3
 New site map created for current location. Overlays working. Next: will collect site data
