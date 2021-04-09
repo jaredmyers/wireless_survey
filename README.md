@@ -2,11 +2,11 @@
 
 ### How far along are we? 
 
-* testing of networking tools (iperf3, iwlist) *complete*
-* getting structured networking data into python *complete*
-* testing matplotlib and graphing capabilities *complete*
-* getting a test heatmap up and running *complete*
-* understanding how to get an overlay image and heatmap to play nicely together *complete*
+* testing of networking tools (iperf3, iwlist) ***complete***
+* getting structured networking data into python ***complete***
+* testing matplotlib and graphing capabilities ***complete***
+* getting a test heatmap up and running ***complete***
+* understanding how to get an overlay image and heatmap to play nicely together ***complete***
 * obtain real site data for a proper graph 
 * tweak heatmap and overlay to ensure spacial accuracy 
 * write function to automate the parsing of data directly from networking tools
