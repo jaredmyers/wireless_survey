@@ -9,10 +9,12 @@ import os
 
 import pandas as pd
 import matplotlib
+import matplotlib.pyplot as plt
+import json
+
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas 
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar 
-import matplotlib.pyplot as plt 
-
+ 
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 
@@ -25,7 +27,7 @@ import random
 
 class Window(QWidget):
 
-    def __init__(self):
+    def __init__(self, grid_point_num, iperf_ip):
         '''constructor for scantool'''
         super().__init__()
         self.setWindowTitle("WiFi Survey Tool")
@@ -35,6 +37,10 @@ class Window(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
         
+        # Grid point number for current floorplan
+        # IP for iperf
+        self.grid_point_num = grid_point_num
+        self.iperf_ip = iperf_ip
         
         # Floorplan Display ---------------------
         self.canvas = None
@@ -43,11 +49,12 @@ class Window(QWidget):
         # Floorplan Tab---------------------
         self.information_txt = QLabel()
         self.plot_button = QPushButton('Scan Data Point')
+        self.finish_button = QPushButton('Finished')
         
         
         # Selection Tab-------------------
-        self.searchTextField = QLineEdit()
-        self.ph1 = QLabel()
+        #self.searchTextField = QLineEdit()
+        #self.ph1 = QLabel()
 
         # Create the tab widget w/2tabs
         tabs = QTabWidget()
@@ -63,19 +70,24 @@ class Window(QWidget):
         layoutV = QVBoxLayout()
         layoutH = QHBoxLayout()
         
-        # to display button and text under graph
-        #layoutH2 = QHBoxLayout()
-        #layoutH2.addWidget(self.plot_button)
-        self.information_txt.setText("This is some information")
+        # for two buttons lower left
+        layoutH2 = QHBoxLayout()
+        layoutH2.addWidget(self.plot_button)
+        layoutH2.addWidget(self.finish_button)
         
-        self.plotGraph()
+        self.information_txt.setText(f"{self.grid_point_num} grid points")
+        self.plot_start_graph()
+        
         layoutV.addWidget(self.canvas)
-        layoutH.addWidget(self.plot_button)
+        layoutH.addLayout(layoutH2)
+        layoutH2.addWidget(self.plot_button, alignment=QtCore.Qt.AlignLeft)
+        layoutH2.addWidget(self.finish_button)
         layoutH.addWidget(self.information_txt)
         layoutV.addLayout(layoutH)
-        #layoutV.addLayout(layoutH2)
         
         floorplan_tab.setLayout(layoutV)
+
+        self.plot_button.clicked.connect(self.scan_data_point)
         
         return floorplan_tab
 
@@ -91,8 +103,8 @@ class Window(QWidget):
         return selection_tab
 
                                
-    def plotGraph(self):
-        '''Adds graph to floorplan tab'''
+    def plot_start_graph(self):
+        '''Adds starter flooplan to floorplan tab'''
        
         extents = [0,2600, 0, 1500]
         # take in floorplan image, set extents, etc
@@ -100,18 +112,52 @@ class Window(QWidget):
         img = plt.imread("house.png")
         image = plt.imshow(img, extent=extents)
         
-         # regular matplotlib attempt
-        floorplan_data = pd.read_csv('house.csv')
-        floorplan_data = floorplan_data.pivot('col', 'row', 'intensity')
-        heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='Mitchell',
-                             extent=[0,2500,0,1500], origin="lower")
-        
         self.canvas = FigureCanvas(fig)
+        
+    def plot_finished_graph(self):
+        pass
+    
+    def scan_data_point(self):
+        '''scans next data point in list'''
+        
+        avg_bits_second = None
+        cmd = f'iperf3 -c {self.iperf_ip} -J > iperf_json'
+        
+        # should do a timeout with this or subprocess
+        self.information_txt.setText("Processing iperf")
+        os.system(cmd)
+        self.information_txt.setText("Scan complete")
+        
+        if not os.path.isfile(f'iperf_json'):
+            print('iperf3 output file does not exist');
+            self.information_txt.setText("No iperf JSON")
+            return    
+        
+        with open('iperf_json', 'r') as inF:
+            data = json.load(inF)
+        
+        self.information_txt.setText("JSON loaded")
+        
+        # grab average bits per second, convert to MBits/s with 2 decimals
+        try:
+            avg_bits_second = data['end']['sum_received']['bits_per_second']
+            avg_Mbits_second = round((avg_bits_second / 1000000), 2)
+        except KeyError:
+            self.information_txt.setText("iperf conn err")
+            
+        self.information_txt.setText("JSON read")
+        #self.information_txt.setText(str(avg_Mbits_second))
+            
+        self.grid_point_num -= 1
+        self.information_txt.setText(f"{self.grid_point_num} grid points")
 
 if __name__ == "__main__":
 
+    floorplan_gridpoint_num = 1
+    iperf_server_ip = '10.0.0.74'
+    
     app = QApplication(sys.argv)
-    window = Window()
+    window = Window(floorplan_gridpoint_num, iperf_server_ip)
     window.show()
     sys.exit(app.exec_())
 

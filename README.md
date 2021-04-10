@@ -9,12 +9,18 @@
 * understanding how to get an overlay image and heatmap to play nicely together ***complete***
 * obtain real site data for a proper graph ***complete***
 * tweak heatmap and overlay to ensure spacial accuracy ***complete***
-* write function to automate the parsing of data directly from networking tools
-* create a gui wrapper that allows user to click/touch on a map point and gather bitrate data
+* write function to automate the parsing of data directly from networking tools ***in progress***
+* create a gui wrapper that allows user to click/touch on a map point and gather bitrate data ***in progress***
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
 
+#### 04/09/21 #3
+Migrating code over to GUI framework. [It's currently looking like this][2]. Definitely can present this as a 
+'prototype'. However once everything is in place we can tweak it, possibly improve, etc.
+
+[2]: <test_gui2.png>  
+
 #### 04/09/21 #2
-Currently setting up graphical interface for the thing.[It's currently looking like this.][1] 
+Currently setting up graphical interface for the thing. [It's currently looking like this.][1] 
 Not sure yet how it will turn out. Idealy the user would be able touch a point on the map to scan,
 but that might be too much for PyQt5 (or too much for me lol). 
 
