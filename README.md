@@ -13,6 +13,10 @@
 * create a gui wrapper that allows user to click/touch on a map point and gather bitrate data ***complete?***
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
 
+#### 04/10/21 #2
+Got graph updating working within the user interface for a finished csv file. Now to  make a function
+that creates a csv file in-app and while scanning grid points.  
+
 #### 04/10/21 #1 
 ![bitrate map][5]
 ![interpolation map][4]

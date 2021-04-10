@@ -11,6 +11,7 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import json
+import seaborn as sns
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas 
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar 
@@ -45,6 +46,7 @@ class Window(QWidget):
         
         # Floorplan Display ---------------------
         self.canvas = None
+        self.fig = None
         
         #----------------------- Labels
         # Floorplan Tab---------------------
@@ -91,7 +93,9 @@ class Window(QWidget):
         
         floorplan_tab.setLayout(layoutV)
 
+        # Connect interface buttons
         self.plot_button.clicked.connect(self.scan_data_point)
+        self.finish_button.clicked.connect(self.mpl_heatmap)
         
         return floorplan_tab
 
@@ -112,11 +116,20 @@ class Window(QWidget):
        
         extents = [0,2500, 0, 1500]
         # take in floorplan image, set extents, etc
-        fig = plt.figure()
-        img = plt.imread("house.png")
+        self.fig = plt.figure()
+        img = plt.imread("house3.png")
         image = plt.imshow(img, extent=extents)
+        plt.yticks([])
+        plt.xticks([])
         
-        self.canvas = FigureCanvas(fig)
+        # regular matplotlib attempt
+        #floorplan_data = pd.read_csv('house.csv')
+        #floorplan_data = floorplan_data.pivot('col', 'row', 'intensity')
+        #heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell', extent=[0,2500,0,1500], origin="lower")
+        #plt.yticks([])
+        #plt.xticks([])
+        
+        self.canvas = FigureCanvas(self.fig)
         
     def plot_finished_graph(self):
         pass
@@ -163,6 +176,68 @@ class Window(QWidget):
     
     def change_mbittxt(self, txt_change):
         self.mbit_info_txt.setText(f'{txt_change} Mbit/s  ')
+        
+    def generate_dataframe(self):
+        '''generates pandas dataframe from csv file'''
+        
+        floorplan_df = pd.read_csv('house.csv')
+        floorplan_df = floorplan_df.pivot('col', 'row', 'intensity')
+        
+        return floorplan_df
+        
+    def sns_heatmap(self):
+        '''Displays finished seaborn block heatgraph'''
+        
+        floorplan_data = self.generate_dataframe
+        
+        # establish seaborn heatmap to overlay ontop of floorplan
+        h = sns.heatmap(floorplan_data, cmap='coolwarm', cbar=True, alpha=0.7,
+                        zorder=2, square=True, annot=True, fmt='g', cbar_kws={'label': 'Mbit/s'})
+        # flip y axis
+        h.invert_yaxis()
+        
+        # setting ticks for heatmap
+        h.set_yticklabels([2,6,10,14,18,22,26,30,34])
+        h.set_xticklabels([2,6,10,14,18,22,26,30,34,38,42,46,50])
+        h.set(xlabel = 'Feet', ylabel = 'Feet')
+        
+        # read in floorplan - set size and z
+        my_image = mpimg.imread('house3.png')
+        h.imshow(my_image, aspect=h.get_aspect(), extent=h.get_xlim() + h.get_ylim(), zorder=1)
+   
+        #plt.show()
+        self.canvas = FigureCanvas(fig)
+    
+    
+    def mpl_heatmap(self):
+        '''Displays finished matplotlib interpolated heatmap'''
+        
+        floorplan_df = pd.read_csv('house.csv')
+        floorplan_df = floorplan_df.pivot('col', 'row', 'intensity')
+        
+        extents = [0,2500, 0, 1500]
+        # take in floorplan image, set extents, etc
+        #fig = plt.figure()
+        
+        # clear current contents of heatmap
+        self.fig.clear()
+        
+        # start reloading heatmap data
+        img = plt.imread("house3.png")
+        image = plt.imshow(img, extent=extents)
+        
+        # regular matplotlib attempt
+        floorplan_data = pd.read_csv('house.csv')
+        floorplan_data = floorplan_data.pivot('col', 'row', 'intensity')
+        heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell', extent=[0,2500,0,1500], origin="lower")
+        plt.yticks([])
+        plt.xticks([])
+        
+        # Redraw the heatmap with data
+        self.fig.canvas.draw_idle()
+        
+        #self.canvas = FigureCanvas(self.fig)
+        #plt.show()
 
 if __name__ == "__main__":
 
