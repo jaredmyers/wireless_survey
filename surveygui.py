@@ -39,7 +39,8 @@ class Window(QWidget):
         
         # Grid point number for current floorplan
         # IP for iperf
-        self.grid_point_num = grid_point_num
+        self.total_gp = grid_point_num
+        self.gp = 0
         self.iperf_ip = iperf_ip
         
         # Floorplan Display ---------------------
@@ -77,7 +78,7 @@ class Window(QWidget):
         layoutH2.addWidget(self.plot_button)
         layoutH2.addWidget(self.finish_button)
         
-        self.grid_info_txt.setText(f"{self.grid_point_num} grid points")
+        self.grid_info_txt.setText(f"{self.gp}/{self.total_gp} gridpoints")
         self.plot_start_graph()
         
         layoutV.addWidget(self.canvas)
@@ -149,7 +150,7 @@ class Window(QWidget):
         #self.information_txt.setText("JSON read")
         #self.information_txt.setText(str(avg_Mbits_second))
             
-        self.grid_point_num -= 1
+        self.gp += 1
         
         self.change_grid_infotxt()
         self.change_mbittxt(str(avg_Mbits_second))
@@ -158,7 +159,7 @@ class Window(QWidget):
         #self.infor_txt.setText(str(self.grid_point_num))
         
     def change_grid_infotxt(self):
-        self.grid_info_txt.setText(str(self.grid_point_num) + " gridpoints left")
+        self.grid_info_txt.setText(f"{self.gp}/{self.total_gp} gridpoints")
     
     def change_mbittxt(self, txt_change):
         self.mbit_info_txt.setText(f'{txt_change} Mbit/s  ')

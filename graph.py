@@ -34,15 +34,16 @@ class Graph:
         # regular matplotlib attempt
         floorplan_data = pd.read_csv('house.csv')
         floorplan_data = floorplan_data.pivot('col', 'row', 'intensity')
-        heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell',
-                             extent=[0,2500,0,1500], origin="lower")
+        #heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell',
+        ##                    extent=[0,2500,0,1500], origin="lower")
         
         #textcolors = ["k","w"]
         #threshold = 55
-        #print(floorplan_data)
+        print(floorplan_data)
         
         
-        plt.show()
+        
+        #plt.show()
         #fig.savefig('house_output.png', dpi=150)
         
         
