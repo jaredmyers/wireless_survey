@@ -47,9 +47,11 @@ class Window(QWidget):
         
         #----------------------- Labels
         # Floorplan Tab---------------------
-        self.information_txt = QLabel()
+        self.grid_info_txt = QLabel()
+        self.mbit_info_txt = QLabel()
         self.plot_button = QPushButton('Scan Data Point')
-        self.finish_button = QPushButton('Finished')
+        self.finish_button = QPushButton('Finish')
+        self.grid_data_list = []
         
         
         # Selection Tab-------------------
@@ -75,14 +77,15 @@ class Window(QWidget):
         layoutH2.addWidget(self.plot_button)
         layoutH2.addWidget(self.finish_button)
         
-        self.information_txt.setText(f"{self.grid_point_num} grid points")
+        self.grid_info_txt.setText(f"{self.grid_point_num} grid points")
         self.plot_start_graph()
         
         layoutV.addWidget(self.canvas)
         layoutH.addLayout(layoutH2)
         layoutH2.addWidget(self.plot_button, alignment=QtCore.Qt.AlignLeft)
         layoutH2.addWidget(self.finish_button)
-        layoutH.addWidget(self.information_txt)
+        layoutH.addWidget(self.mbit_info_txt)
+        layoutH.addWidget(self.grid_info_txt)
         layoutV.addLayout(layoutH)
         
         floorplan_tab.setLayout(layoutV)
@@ -106,7 +109,7 @@ class Window(QWidget):
     def plot_start_graph(self):
         '''Adds starter flooplan to floorplan tab'''
        
-        extents = [0,2600, 0, 1500]
+        extents = [0,2500, 0, 1500]
         # take in floorplan image, set extents, etc
         fig = plt.figure()
         img = plt.imread("house.png")
@@ -124,9 +127,9 @@ class Window(QWidget):
         cmd = f'iperf3 -c {self.iperf_ip} -J > iperf_json'
         
         # should do a timeout with this or subprocess
-        self.information_txt.setText("Processing iperf")
+        #self.change_infotxt("Processing iperf")
         os.system(cmd)
-        self.information_txt.setText("Scan complete")
+        #self.information_txt.setText("Scan complete")
         
         if not os.path.isfile(f'iperf_json'):
             print('iperf3 output file does not exist');
@@ -136,8 +139,6 @@ class Window(QWidget):
         with open('iperf_json', 'r') as inF:
             data = json.load(inF)
         
-        self.information_txt.setText("JSON loaded")
-        
         # grab average bits per second, convert to MBits/s with 2 decimals
         try:
             avg_bits_second = data['end']['sum_received']['bits_per_second']
@@ -145,11 +146,22 @@ class Window(QWidget):
         except KeyError:
             self.information_txt.setText("iperf conn err")
             
-        self.information_txt.setText("JSON read")
+        #self.information_txt.setText("JSON read")
         #self.information_txt.setText(str(avg_Mbits_second))
             
         self.grid_point_num -= 1
-        self.information_txt.setText(f"{self.grid_point_num} grid points")
+        
+        self.change_grid_infotxt()
+        self.change_mbittxt(str(avg_Mbits_second))
+        self.grid_data_list.append(avg_Mbits_second)
+        
+        #self.infor_txt.setText(str(self.grid_point_num))
+        
+    def change_grid_infotxt(self):
+        self.grid_info_txt.setText(str(self.grid_point_num) + " gridpoints left")
+    
+    def change_mbittxt(self, txt_change):
+        self.mbit_info_txt.setText(f'{txt_change} Mbit/s  ')
 
 if __name__ == "__main__":
 
