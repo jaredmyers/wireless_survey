@@ -18,7 +18,7 @@
 ![interpolation map][4]
 
 [5]: <output/block_map.png>
-[4]: <output/interpolation_map>
+[4]: <output/interpolation_map.png>
 
 #### 04/09/21 #4
 [Currently looking like this][3]. GUI isn't setup for touching the map but currently setup for clicking the scan 
