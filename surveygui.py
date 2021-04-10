@@ -166,7 +166,7 @@ class Window(QWidget):
 
 if __name__ == "__main__":
 
-    floorplan_gridpoint_num = 1
+    floorplan_gridpoint_num = 117
     iperf_server_ip = '10.0.0.74'
     
     app = QApplication(sys.argv)
