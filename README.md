@@ -13,29 +13,36 @@
 * create a gui wrapper that allows user to click/touch on a map point and gather bitrate data ***complete?***
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
 
+#### 04/10/21 #1 
+![bitrate map][5]
+![interpolation map][4]
+
+[5]: <output/block_map.png>
+[4]: <output/interpolation_map>
+
 #### 04/09/21 #4
 [Currently looking like this][3]. GUI isn't setup for touching the map but currently setup for clicking the scan 
 button when at a grid point. *shrug* it might not be necessary to make it any more complicated but I guess 
 we'll see. Next is to automate the creation of the dataframe thats used for extracting the grid data while clicking.
 
-[3]: <test_gui3.png>
+[3]: <output/test_gui3.png>
 
 #### 04/09/21 #3
 Migrating code over to GUI framework. [It's currently looking like this][2]. Definitely can present this as a 
 'prototype'. However once everything is in place we can tweak it, possibly improve, etc.
 
-[2]: <test_gui2.png>  
+[2]: <output/test_gui2.png>  
 
 #### 04/09/21 #2
 Currently setting up graphical interface for the thing. [It's currently looking like this.][1] 
 Not sure yet how it will turn out. Idealy the user would be able touch a point on the map to scan,
 but that might be too much for PyQt5 (or too much for me lol). 
 
-[1]: <test_gui.png>
+[1]: <output/test_gui.png>
 
 #### 04/09/21 #1
 Real site data measured, graph/overlay working. Heatmap tweaks successful.
-See [current output here](house_output.png) The gridded area is roughly 1700 sq.ft
+See [current output here](output/house_output.png) The gridded area is roughly 1700 sq.ft
 which will probably be indicated in the output. Working on that now.
 
 #### 04/08/21 #3

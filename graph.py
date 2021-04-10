@@ -6,6 +6,8 @@ import numpy as np
 import numpy.random
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
+import matplotlib.image as mpimg
+
 from scipy.ndimage.filters import gaussian_filter
 
 import pandas as pd
@@ -22,31 +24,55 @@ class Graph:
         #self.y = np.random.randn(y)
        # self.uniform_data = np.random.rand(20,20)
         
-    def generate_heatmap(self):
-        '''generates heat map from x, y'''
+    def generate_heatmap(self, csv_path):
+        '''generates heat map from csv file'''
         
-        extents = [0,2600, 0, 1500]
+        floorplan_df = pd.read_csv(csv_path)
+        floorplan_df = floorplan_df.pivot('col', 'row', 'intensity')
+        #self.sns_heatmap(floorplan_df)
+        self.mpl_heatmap(floorplan_df)
+        
+        # to save figures 
+        #fig.savefig('house_output.png', dpi=150)
+        
+        
+    def mpl_heatmap(self, floorplan_data):
+        '''matplotlib heatmap implementation, easy interpolation'''
+        
+        extents = [0,2500, 0, 1500]
         # take in floorplan image, set extents, etc
         fig = plt.figure()
-        img = plt.imread("house.png")
+        img = plt.imread("house3.png")
         image = plt.imshow(img, extent=extents)
         
         # regular matplotlib attempt
         floorplan_data = pd.read_csv('house.csv')
         floorplan_data = floorplan_data.pivot('col', 'row', 'intensity')
-        #heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell',
-        ##                    extent=[0,2500,0,1500], origin="lower")
+        heatmap = plt.imshow(floorplan_data, cmap='jet',alpha=.4, interpolation='mitchell', extent=[0,2500,0,1500], origin="lower")
+        plt.yticks([])
+        plt.xticks([])
+        plt.show()
         
-        #textcolors = ["k","w"]
-        #threshold = 55
-        print(floorplan_data)
+    def sns_heatmap(self, floorplan_data):
+        '''seaborn heatmap implementation, easy annotation'''
         
+        # establish seaborn heatmap to overlay ontop of floorplan
+        h = sns.heatmap(floorplan_data, cmap='coolwarm', cbar=True, alpha=0.7,
+                        zorder=2, square=True, annot=True, fmt='g', cbar_kws={'label': 'Mbit/s'})
+        # flip y axis
+        h.invert_yaxis()
         
+        # setting ticks for heatmap
+        h.set_yticklabels([2,6,10,14,18,22,26,30,34])
+        h.set_xticklabels([2,6,10,14,18,22,26,30,34,38,42,46,50])
+        h.set(xlabel = 'Feet', ylabel = 'Feet')
         
-        #plt.show()
-        #fig.savefig('house_output.png', dpi=150)
-        
-        
+        # read in floorplan - set size and z
+        my_image = mpimg.imread('house3.png')
+        h.imshow(my_image, aspect=h.get_aspect(), extent=h.get_xlim() + h.get_ylim(), zorder=1)
+   
+        plt.show()
+
         
         # reference garbage   
         '''

@@ -20,4 +20,4 @@ from graph import Graph
 #netscan.iperf_print(1)
 
 graph = Graph()
-graph.generate_heatmap()
+graph.generate_heatmap('house.csv')
