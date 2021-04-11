@@ -14,8 +14,15 @@
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
 
 #### 04/10/21 #2
-Got graph updating working within the user interface for a finished csv file. Now to  make a function
-that creates a csv file in-app and while scanning grid points.  
+How it's looking/updating while mapping grid points (will fix sided tick nums). All major functions are 
+almost complete. After that it's just extras if we want. 
+![while mapping][6]
+
+[6]: <output/while_mapping.png>
+
+#### 04/10/21 #2
+Got graph updating working within the user interface for a finished csv file. Now to make a function
+that creates a csv file in-app while scanning grid points.  
 
 #### 04/10/21 #1 
 ![bitrate map][5]
