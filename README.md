@@ -13,6 +13,9 @@
 * create a gui wrapper that allows user to click/touch on a map point and gather bitrate data ***complete?***
 * grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
 
+#### 04/12/21 #1
+[Created an overview document](details.md) for how the program is working.
+
 #### 04/10/21 #2
 How it's looking/updating while mapping grid points (will fix sided tick nums). All major functions are 
 almost complete. After that it's just extras if we want. 
