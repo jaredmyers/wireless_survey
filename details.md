@@ -31,20 +31,20 @@ Example: The house demo consists of a 9x13 matrix of grid points, spaced
 4 feet apart over a ~1700 Sqft area. 4-feet between grid points seemed like a 
 happy middle ground between too-few and too-many measurements. 
 
-### Currently working in three stages:
+#### Currently working in three stages:
 
 1. Gathering network readings 
 2. Read network readings / update graph
 3. Output final graphs
  
-#### Gathering network readings
+### 1. Gathering network readings
+
+This resides in the **scan data point** function.
 
 Iperf3 is used to gather bitrate readings on the network. An iperf server needs
 to be setup on the network in order to talk with the client (the computer taking
 the readings). So the server is running 'iperf3 -s' for server mode, and by
 default listening on port 5201.
-
-func: *scan data point function*
 
 On the client side, 'iperf3 -c *server ip* -J > *outputfile*' is being run.
  
@@ -61,9 +61,9 @@ For each gridpoint:
 
 ![iperf3 terminal output](output/iperf3_cmd_output.png)
 
-#### Read network readings / update graph
+### 2. Read network readings / update graph
  
-func: *scan data point function*
+This resides in the **scan data point** function.
 
 JSON output [looks like this.](output/iperf_json)
 
@@ -103,7 +103,7 @@ graph interactable and allowing the user to click on data points to scan. I
 haven't researched this yet but for our purposes the program is still solid 
 without this interface feature. 
 
-#### Output final graphs 
+### 3. Output final graphs 
 
 Similar to redrawing the map, after all the designated gridpoints are scanned, 
 the user can click finish and output the final map display.
