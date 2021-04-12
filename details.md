@@ -21,6 +21,8 @@ Extra:
 * [smartdraw][6] - used to mockup floorplans
 * [RaspberryPi][7] - single board computer, good for portability 
 
+---
+
 #### Current inputs upon start:
 
 * The created floor plan for the space 
@@ -29,13 +31,17 @@ Extra:
 
 Example: The house demo consists of a 9x13 matrix of grid points, spaced
 4 feet apart over a ~1700 Sqft area. 4-feet between grid points seemed like a 
-happy middle ground between too-few and too-many measurements. 
+happy middle ground between too-few and too-many measurements.
+
+--- 
 
 #### Currently working in three stages:
 
 1. Gathering network readings 
 2. Read network readings / update graph
 3. Output final graphs
+
+---
  
 ### 1. Gathering network readings
 
@@ -46,7 +52,8 @@ to be setup on the network in order to talk with the client (the computer taking
 the readings). So the server is running 'iperf3 -s' for server mode, and by
 default listening on port 5201.
 
-On the client side, 'iperf3 -c *server ip* -J > *outputfile*' is being run.
+Being run on the client side: 
+> 'iperf3 -c *server ip* -J > *outputfile*'
  
 -c is for client mode, then passing the ip address of the listening iperf 
 server on the network. -J is for outputing all the scanned data to a JSON
@@ -60,6 +67,8 @@ point.
 For each gridpoint:
 
 ![iperf3 terminal output](output/iperf3_cmd_output.png)
+
+---
 
 ### 2. Read network readings / update graph
  
