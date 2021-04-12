@@ -32,8 +32,7 @@ Extra:
 Example: The house demo consists of a 9x13 matrix of grid points, spaced
 4 feet apart over a ~1700 Sqft area. 4-feet between grid points seemed like a 
 happy middle ground between too-few and too-many measurements.
-
---- 
+ 
 
 #### Currently working in three stages:
 
@@ -111,6 +110,8 @@ bottom-left to right. A slight limitation which can be alleviated by making the
 graph interactable and allowing the user to click on data points to scan. I 
 haven't researched this yet but for our purposes the program is still solid 
 without this interface feature. 
+
+---
 
 ### 3. Output final graphs 
 
