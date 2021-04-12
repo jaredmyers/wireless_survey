@@ -9,9 +9,14 @@
 * understanding how to get an overlay image and heatmap to play nicely together ***complete***
 * obtain real site data for a proper graph ***complete***
 * tweak heatmap and overlay to ensure spacial accuracy ***complete***
-* write function to automate the parsing of data directly from networking tools ***in progress***
+* write function to automate the parsing of data directly from networking tools ***complete***
 * create a gui wrapper that allows user to click/touch on a map point and gather bitrate data ***complete?***
-* grab a raspberryPi 5-7inch touch screen and a portable battery to make the demo look baller
+
+#### Left to do..
+
+* grab a raspberryPi 5-7inch touch screen and a portable battery (or hidden extension cord) to make the 
+demo look good.
+* I also need to write one more function for the final graph output and saving of graphs.
 
 #### 04/12/21 #1
 [Created an overview document](details.md) for how the program is working.
