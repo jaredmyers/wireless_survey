@@ -213,18 +213,53 @@ class Window(QWidget):
         self.mbit_data_list[(self.current_gp - 1)] = mbit
         
         print(self.mbit_data_list)
+        
+    
+    def rt_dataframe(self):
+        '''generates dataframe from nparray and mbitrate list'''
+        '''for realtime. this is for outputting in 2 colors to'''
+        '''to indicate to user what has been scanned'''
+        
+        # Preps array with row,col,mbit for dataframe 
+        x = 1
+        y = 1
+        mbit_count = 0
+        dummy_val = 0
+        for arr in self.a:
+            
+            # This allows scanned points to be green, unscanned grey
+            # while using the Accent cmap for seaborn
+            if self.mbit_data_list[mbit_count] > 0:
+                dummy_val = 0
+            else:
+                dummy_val = 1
+            
+            arr[0] = x
+            arr[1] = y
+            arr[2] = dummy_val
+            y += 1
+            mbit_count += 1
+            dummy_val = 0
+            if y == (self.x_ax + 1):
+                x += 1
+                y = 1
+                
+        df = pd.DataFrame(self.a, columns=['row','col','intensity'])
+        df = df.pivot(index='row',columns='col')
+        
+        return df
     
     def redraw_map(self):
         '''redraws map to update scanpoints while using application'''
         
-        floorplan_data = self.generate_dataframe()
+        floorplan_data = self.rt_dataframe()
         
         # clear current contents of heatmap on floorplan tab
         self.fig.clear()
         
         # establish seaborn heatmap to overlay ontop of floorplan
-        h = sns.heatmap(floorplan_data, cmap='coolwarm', cbar=False, alpha=0.7,
-                        zorder=2, square=True, annot=True, fmt='g', cbar_kws={'label': 'TCP DL Mbit/s'})
+        h = sns.heatmap(floorplan_data, cmap='Accent', cbar=False, alpha=0.7,
+                        zorder=2, square=True, annot=False, fmt='g', cbar_kws={'label': 'TCP DL Mbit/s'})
         # flip y axis
         h.invert_yaxis()
         
@@ -301,7 +336,7 @@ if __name__ == "__main__":
 
     y_ax = 9
     x_ax = 13
-    iperf_server_ip = '10.0.0.74'
+    iperf_server_ip = '192.168.1.206'
     
     app = QApplication(sys.argv)
     window = Window(y_ax, x_ax, iperf_server_ip)
