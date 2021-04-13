@@ -124,7 +124,7 @@ class Window(QWidget):
         
         # take in floorplan image, set extents, etc
         extents = [0,2500, 0, 1500]
-        img = plt.imread("house3.png")
+        img = plt.imread("input/house3.png")
         image = plt.imshow(img, extent=extents)
         plt.yticks([])
         plt.xticks([])
@@ -180,7 +180,7 @@ class Window(QWidget):
     def generate_df_from_file(self):
         '''generates pandas dataframe from csv file'''
         
-        floorplan_df = pd.read_csv('house.csv')
+        floorplan_df = pd.read_csv('input/house.csv')
         floorplan_df = floorplan_df.pivot('row', 'col', 'intensity')
         
         return floorplan_df
@@ -269,7 +269,7 @@ class Window(QWidget):
         h.set(xlabel = 'Feet', ylabel = 'Feet')
         
         # read in floorplan - set size and z
-        my_image = mpimg.imread('house3.png')
+        my_image = mpimg.imread('input/house3.png')
         h.imshow(my_image, aspect=h.get_aspect(), extent=h.get_xlim() + h.get_ylim(), zorder=1)
    
        # Redraw the heatmap with data
@@ -296,7 +296,7 @@ class Window(QWidget):
         h.set(xlabel = 'Feet', ylabel = 'Feet')
         
         # read in floorplan - set size and z
-        my_image = mpimg.imread('house3.png')
+        my_image = mpimg.imread('input/house3.png')
         h.imshow(my_image, aspect=h.get_aspect(), extent=h.get_xlim() + h.get_ylim(), zorder=1)
    
        # Redraw the heatmap with data
