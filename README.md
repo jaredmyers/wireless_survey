@@ -16,7 +16,10 @@
 
 * grab a raspberryPi 5-7inch touch screen and a portable battery (or hidden extension cord) to make the 
 demo look good.
-* I also need to write one more function for the final graph output and saving of graphs.
+
+#### 04/17/21
+Finished last function. App should be demoable end to end. May adjust graph sizing depending on how demo
+looks.
 
 #### 04/12/21 #1
 [Created an overview document](details.md) for how the program is working.

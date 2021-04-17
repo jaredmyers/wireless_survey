@@ -25,7 +25,11 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 
+from PyQt5.QtCore import QThreadPool
+
 import random
+from threading import Thread
+from multiprocessing import Process
 
 
 class Window(QWidget):
@@ -35,6 +39,7 @@ class Window(QWidget):
         super().__init__()
         self.setWindowTitle("WiFi Survey Tool")
         self.resize(800, 500)
+        self.threadpool = QThreadPool()
 
         #--- Create a top-level layout-
         layout = QVBoxLayout()
@@ -66,6 +71,7 @@ class Window(QWidget):
         self.plot_button = QPushButton('Scan Data Point')
         self.finish_button = QPushButton('Finish')
         
+        
         # Selection Tab-------------------
         #self.searchTextField = QLineEdit()
         #self.ph1 = QLabel()
@@ -89,7 +95,7 @@ class Window(QWidget):
         layoutH2.addWidget(self.finish_button)
         
         self.grid_info_txt.setText(f"{self.current_gp}/{self.total_gp} gridpoints")
-        self.plot_start_graph()
+        self.sns_plot_start()
         
         layoutV.addWidget(self.canvas)
         layoutH.addLayout(layoutH2)
@@ -103,7 +109,7 @@ class Window(QWidget):
 
         # Connect interface buttons
         self.plot_button.clicked.connect(self.scan_data_point)
-        self.finish_button.clicked.connect(self.sns_heatmap)
+        self.finish_button.clicked.connect(self.plot_finished_graph)
         
         return floorplan_tab
 
@@ -131,8 +137,64 @@ class Window(QWidget):
 
         self.canvas = FigureCanvas(self.fig)
         
+    def sns_plot_start(self):
+        '''Adds starter flooplan to floorplan tab'''
+        '''Using seaborn'''
+        
+        floorplan_data = self.rt_dataframe()
+        
+        self.fig = plt.figure()
+        
+        h = sns.heatmap(floorplan_data, cmap='coolwarm', cbar=False, alpha=0.1,
+                        zorder=2, square=True, annot=False, fmt='g', cbar_kws={'label': 'TCP DL Mbit/s'})
+        
+        # setting ticks for heatmap
+        h.set_yticklabels([2,6,10,14,18,22,26,30,34])
+        h.set_xticklabels([2,6,10,14,18,22,26,30,34,38,42,46,50])
+        h.set(xlabel = 'Feet', ylabel = 'Feet')
+        
+        # read in floorplan - set size and z
+        my_image = mpimg.imread('input/house3.png')
+        h.imshow(my_image, aspect=h.get_aspect(), extent=h.get_xlim() + h.get_ylim(), zorder=1)
+        
+        # take in floorplan image, set extents, etc
+        #extents = [0,2500, 0, 1500]
+        #img = plt.imread("input/house3.png")
+        #image = plt.imshow(img, extent=extents)
+        #plt.yticks([])
+        #plt.xticks([])
+
+        self.canvas = FigureCanvas(self.fig)
+        
     def plot_finished_graph(self):
-        pass
+        '''Displays finished graph when finish is clicked'''
+        '''Currently display seaborn block heatgraph'''
+        
+        floorplan_data = self.generate_dataframe()
+        
+        # clear current contents of heatmap on floorplan tab
+        self.fig.clear()
+        
+        # establish seaborn heatmap to overlay ontop of floorplan
+        h = sns.heatmap(floorplan_data, cmap='coolwarm', cbar=True, alpha=0.7,
+                        zorder=2, square=True, annot=True, fmt='g', cbar_kws={'label': 'TCP DL Mbit/s'})
+        # flip y axis
+        h.invert_yaxis()
+        
+        # setting ticks for heatmap
+        h.set_yticklabels([2,6,10,14,18,22,26,30,34])
+        h.set_xticklabels([2,6,10,14,18,22,26,30,34,38,42,46,50])
+        h.set(xlabel = 'Feet', ylabel = 'Feet')
+        
+        # read in floorplan - set size and z
+        my_image = mpimg.imread('input/house3.png')
+        h.imshow(my_image, aspect=h.get_aspect(), extent=h.get_xlim() + h.get_ylim(), zorder=1)
+   
+       # Redraw the heatmap with data
+        self.fig.canvas.draw_idle()
+        
+        #plt.show()
+        #self.canvas = FigureCanvas(fig)
     
     def scan_data_point(self):
         '''scans next data point in list'''
@@ -145,12 +207,19 @@ class Window(QWidget):
         
         # should do a timeout with this or subprocess
         #self.change_infotxt("Processing iperf")
+        
+        self.mbit_info_txt.setText("Scanning...    ")
+        
+        #Quick solution to update text
+        QApplication.processEvents()
+        
         os.system(cmd)
+        
         #self.information_txt.setText("Scan complete")
         
         if not os.path.isfile(f'iperf_json'):
             print('iperf3 output file does not exist');
-            self.information_txt.setText("No iperf JSON")
+            self.mbit_info_txt.setText("No iperf JSON")
             return    
         
         with open('iperf_json', 'r') as inF:
@@ -170,6 +239,14 @@ class Window(QWidget):
         self.mbit_insert(avg_mbits_second)
         
         self.redraw_map()
+        
+    def multi_thread1(self, cmd):
+        self.term_out = os.system(cmd)
+    
+    def multi_thread2(self):
+         #while self.term_out == 1:
+        m = self.msg.exec_()
+        
         
     def change_grid_infotxt(self):
         self.grid_info_txt.setText(f"{self.current_gp}/{self.total_gp} gridpoints")
@@ -212,12 +289,13 @@ class Window(QWidget):
         
         self.mbit_data_list[(self.current_gp - 1)] = mbit
         
-        print(self.mbit_data_list)
+        #for log purposes
+        #print(self.mbit_data_list)
         
     
     def rt_dataframe(self):
         '''generates dataframe from nparray and mbitrate list'''
-        '''for realtime. this is for outputting in 2 colors to'''
+        '''for realtime. this is for outputting in 2 colors'''
         '''to indicate to user what has been scanned'''
         
         # Preps array with row,col,mbit for dataframe 
@@ -318,7 +396,7 @@ class Window(QWidget):
         self.fig.clear()
         
         # start reloading heatmap data
-        img = plt.imread("house3.png")
+        img = plt.imread("input/house_withmeasurements.png")
         image = plt.imshow(img, extent=extents)
         
         # regular matplotlib attempt
@@ -336,7 +414,7 @@ if __name__ == "__main__":
 
     y_ax = 9
     x_ax = 13
-    iperf_server_ip = '192.168.1.206'
+    iperf_server_ip = '192.168.1.8'
     
     app = QApplication(sys.argv)
     window = Window(y_ax, x_ax, iperf_server_ip)
