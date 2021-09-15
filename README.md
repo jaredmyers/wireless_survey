@@ -25,25 +25,6 @@ Extra:
 * [RaspberryPi][8] - single board computer, good for portability 
 
 ---
-
-#### Current inputs upon start:
-
-* The created floor plan for the space 
-* The IP address of the iperf3 server on the network
-* The matrix of gridpoints that are being used for floorplan
-
-Example: The house demo consists of a 9x13 matrix of grid points, spaced
-4 feet apart over a ~1700 Sqft area. 4-feet between grid points seemed like a 
-happy middle ground between too-few and too-many measurements.
- 
-
-#### Currently working in three stages:
-
-1. Gathering network readings 
-2. Read network readings / update graph
-3. Output final graphs
-
----
  
 ### 1. Gathering network readings
 
@@ -114,19 +95,6 @@ graph interactable and allowing the user to click on data points to scan. I
 haven't researched this yet but for our purposes the program is still solid 
 without this interface feature. 
 
----
-
-### 3. Output final graphs 
-
-Similar to redrawing the map, after all the designated gridpoints are scanned, 
-the user can click finish and output the final map display.
-
-Thinking possibly having multiple tabs that populated with different graphs.
-First two that come to mind are the color block graph with displayed bitrate and
-the interpolated heatmap that shows a bit more gradation.
-
-![final1](output/block_map.png)
-![final2](output/interpolation_map.png)
 
 [1]: <https://iperf.fr>
 [2]: <https://numpy.org/doc/stable/user/whatisnumpy.html>
