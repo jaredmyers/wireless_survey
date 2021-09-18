@@ -1,6 +1,6 @@
 # Wireless Survey Heatmap
 
-The goal of this application is to give a visual representation to a users home WiFi signal. The primary measurement is the bitrate of TCP packets from the wireless router to the measurement device.
+The goal of this application is to give a visual representation to a users home WiFi signal as an aid to evaluating coverage and potential issues. The primary measurement is the bitrate of TCP packets from the wireless router to the measurement device.
 
 ![interpolation map](output/interpolation_map.png)
 ![block map](output/block_map.png)
